@@ -50,26 +50,60 @@ function Dashboard() {
       { name: "Data Storytelling with Power BI", score: 89.60 }
     ]
   })
+const allCourses = Object.values(data).flat()
+
+const totalCourses = allCourses.length
+
+const averageScore =
+  (allCourses.reduce((sum, course) => sum + course.score, 0) / totalCourses).toFixed(2)
+
+const highestScore =
+  Math.max(...allCourses.map(course => course.score))
+
+const totalPlatforms = Object.keys(data).length
 
   return (
-    <div>
-      <h2>📊 Skill-Based Performance Dashboard</h2>
+  <div>
 
-      {Object.entries(data).map(([provider, courses], index) => (
-        <div key={index} style={{ marginTop: "30px" }}>
-          <h3>{provider}</h3>
-          <ul>
-            {courses.map((course, i) => (
-              <li key={i}>
-                {course.name} — {course.score}%
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+    <h2>📊 Skill-Based Performance Dashboard</h2>
+
+    <div style={{
+      display: "flex",
+      gap: "20px",
+      marginTop: "20px",
+      marginBottom: "30px"
+    }}>
+
+      <div>
+        <strong>Total Courses:</strong> {totalCourses}
+      </div>
+
+      <div>
+        <strong>Average Score:</strong> {averageScore}%
+      </div>
+
+      <div>
+        <strong>Highest Score:</strong> {highestScore}%
+      </div>
+
+      <div>
+        <strong>Total Platforms:</strong> {totalPlatforms}
+      </div>
 
     </div>
-  )
-}
 
-export default Dashboard
+    {Object.entries(data).map(([provider, courses], index) => (
+      <div key={index} style={{ marginTop: "30px" }}>
+        <h3>{provider}</h3>
+        <ul>
+          {courses.map((course, i) => (
+            <li key={i}>
+              {course.name} — {course.score}%
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+
+  </div>
+)
