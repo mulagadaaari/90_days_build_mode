@@ -107,3 +107,7 @@ const totalPlatforms = Object.keys(data).length
 
   </div>
 )
+}
+
+export default Dashboard
+
