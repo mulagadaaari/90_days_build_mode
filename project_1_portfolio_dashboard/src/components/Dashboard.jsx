@@ -50,7 +50,13 @@ function Dashboard() {
       { name: "Data Storytelling with Power BI", score: 89.60 }
     ]
   })
-const allCourses = Object.values(data).flat()
+  const [selectedPlatform, setSelectedPlatform] = useState("All")
+
+const allCourses =
+  selectedPlatform === "All"
+    ? Object.values(data).flat()
+    : data[selectedPlatform]
+
 
 const totalCourses = allCourses.length
 
@@ -66,6 +72,20 @@ const totalPlatforms = Object.keys(data).length
   <div>
 
     <h2>📊 Skill-Based Performance Dashboard</h2>
+    <div style={{ marginTop: "15px" }}>
+  <button onClick={() => setSelectedPlatform("All")}>All</button>
+
+  {Object.keys(data).map((platform, index) => (
+    <button
+      key={index}
+      onClick={() => setSelectedPlatform(platform)}
+      style={{ marginLeft: "10px" }}
+    >
+      {platform}
+    </button>
+  ))}
+</div>
+
 
     <div style={{
       display: "flex",
@@ -92,7 +112,8 @@ const totalPlatforms = Object.keys(data).length
 
     </div>
 
-    {Object.entries(data).map(([provider, courses], index) => (
+    {selectedPlatform === "All"
+  ? Object.entries(data).map(([provider, courses], index) => (
       <div key={index} style={{ marginTop: "30px" }}>
         <h3>{provider}</h3>
         <ul>
@@ -103,7 +124,21 @@ const totalPlatforms = Object.keys(data).length
           ))}
         </ul>
       </div>
-    ))}
+    ))
+  : (
+      <div style={{ marginTop: "30px" }}>
+        <h3>{selectedPlatform}</h3>
+        <ul>
+          {data[selectedPlatform].map((course, i) => (
+            <li key={i}>
+              {course.name} — {course.score}%
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+}
+
 
   </div>
 )
